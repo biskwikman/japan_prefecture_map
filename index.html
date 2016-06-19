@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<style>
+
+
+
+</style>
+</head>
+<body>
+<script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="//d3js.org/topojson.v1.min.js"></script>
+<script>
+
+var width = 960;
+var height = 1160;
+
+var projection = d3.geo.mercator()
+    .center([138.3, 39.2])
+    .scale(1500);
+
+var path = d3.geo.path()
+    .projection(projection);
+
+var svg = d3.select("body").append("svg")
+    .attr("height", height)
+    .attr("width", width);
+
+d3.json("japan.json", function(error, japan) {
+  svg.selectAll(".prefecture")
+      .data(topojson.feature(japan, japan.objects.prefectures).features)
+    .enter().append("path")
+      .attr("class", function (d) { return "prefecture " + d.id; })
+      .attr("d", path);
+});
+
+
+</script>
+</body>
+</html>
