@@ -3,8 +3,6 @@
 <meta charset="utf-8">
 <style>
 
-
-
 </style>
 </head>
 <body>
@@ -14,6 +12,9 @@
 
 var width = 960;
 var height = 1160;
+
+var colors = ["#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3",
+              "#fdb462", "#b3de69", "#fccde5", "#d9d9d9"];
 
 var projection = d3.geo.mercator()
     .center([138.3, 39.2])
@@ -26,13 +27,17 @@ var svg = d3.select("body").append("svg")
     .attr("height", height)
     .attr("width", width);
 
-d3.json("japan.json", function(error, japan) {
+/* draws the map */
+d3.json("japanv2.json", function(error, japan) {
   svg.selectAll(".prefecture")
       .data(topojson.feature(japan, japan.objects.prefectures).features)
     .enter().append("path")
       .attr("class", function (d) { return "prefecture " + d.id; })
-      .attr("d", path);
-});
+      .attr("d", path)
+      .attr("fill", function (d, i) {
+        return colors[i%colors.length];
+      });
+    });
 
 
 </script>
